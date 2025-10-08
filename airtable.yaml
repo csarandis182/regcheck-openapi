@@ -1,7 +1,0 @@
-git clone https://github.com/csarandis182/regcheck-openapi.git
-cd regcheck-openapi
-# add your files
-git add .
-git commit -m "Add Airtable OpenAPI spec"
-git push
-
