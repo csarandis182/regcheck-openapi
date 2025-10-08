@@ -1,0 +1,46 @@
+openapi: 3.0.1
+info:
+  title: RegCheck Google Sheets Logger
+  version: 1.0.0
+servers:
+  - url: https://sheets.googleapis.com/v4
+paths:
+  /spreadsheets/{spreadsheetId}/values/{range}:append:
+    post:
+      operationId: logComplianceResult
+      summary: Append a new compliance result to the Google Sheet
+      parameters:
+        - name: spreadsheetId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The Google Sheet ID from its URL
+        - name: range
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "Sheet1!A1"
+        - name: valueInputOption
+          in: query
+          required: true
+          schema:
+            type: string
+          example: "USER_ENTERED"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                values:
+                  type: array
+                  items:
+                    type: array
+                    items:
+                      type: string
+      responses:
+        "200":
+          description: Row appended successfully
