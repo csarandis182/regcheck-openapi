@@ -1,0 +1,76 @@
+openapi: 3.0.1
+info:
+  title: RegCheck Airtable API
+  version: 1.0.0
+servers:
+  - url: https://api.airtable.com/v0
+paths:
+  /{base_id}/Submissions:
+    get:
+      operationId: fetchPendingSubmissions
+      summary: Fetch pending submissions from Airtable
+      parameters:
+        - name: base_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: filterByFormula
+          in: query
+          schema:
+            type: string
+            example: "{Status}='Pending'"
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  records:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        fields:
+                          type: object
+                          properties:
+                            Client Name:
+                              type: string
+                            Submission Text:
+                              type: string
+                            Status:
+                              type: string
+    patch:
+      operationId: updateSubmissionResult
+      summary: Update a submission record with GPT output and risk rating
+      parameters:
+        - name: base_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                record_id:
+                  type: string
+                fields:
+                  type: object
+                  properties:
+                    GPT Output:
+                      type: string
+                    Risk Level:
+                      type: string
+                    Status:
+                      type: string
+      responses:
+        "200":
+          description: Record updated successfully
